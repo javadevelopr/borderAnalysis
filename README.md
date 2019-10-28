@@ -1,6 +1,6 @@
-#Border Crossing Analysis
+# Border Crossing Analysis
 
-##Approach
+## Approach
 Thanks to Python's "all batteries-included" standard library, this was a fairly straightforward challenge and my 
 approach should be fairly readable from the code.
 
