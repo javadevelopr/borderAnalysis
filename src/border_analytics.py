@@ -3,7 +3,7 @@
 #
 # Date Created: Oct 28,2019
 #
-# Last Modified: Tue Oct 29 08:24:55 2019
+# Last Modified: Tue Oct 29 09:06:36 2019
 #
 # Author: samolof
 #
@@ -20,6 +20,10 @@ Tree=lambda: collections.defaultdict(Tree)
 #Python3 round() apparently rounds down for midpoint floating point numbers
 #but Insight's tests require rounding up
 _round = lambda n: ((n-math.floor(n)) == 0.5) and round(n) + 1 or round(n)
+
+
+"""checks if two dates are from the same year"""
+sameYear = lambda d1,d2: d1.split('/')[2] == d2.split('/')[2]
 
 
 def flatten_recursive(root, row=[]):
@@ -82,9 +86,10 @@ if __name__ == "__main__":
             for i,row in enumerate(resultData):
                 border=row[0]
                 measure=row[2]
+                date=row[1]
             
                 #get all entries from previous months with the same measure and border
-                same_border_measure = list(filter(lambda x: border==x[0] and measure == x[2],resultData[i+1:]))
+                same_border_measure = list(filter(lambda x: border==x[0] and measure == x[2] and sameYear(date,x[1]),resultData[i+1:]))
                 #calculate running avg by summing all the values for previous months and dividing
                 #by the number of previous months
                 n = len(same_border_measure)

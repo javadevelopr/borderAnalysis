@@ -27,7 +27,7 @@ To calculate running Monthly averages for each border and means of crossing the 
 first step were sorted in descending order (as required). It was then straightforward to calculate a running monthly
 average using the ff procedure:
 - Read each row of results
-- for each row, find all the other rows in the result set with the same border and measure by searching forward
+- for each row, find all the other rows in the result set with the same border and measure and same Year by searching forward
   in the result set, since the result set is already sorted in descending order ( and using Python's nice
   filter() function)
 - Sum up the rows obtained from step 2 and take the average
