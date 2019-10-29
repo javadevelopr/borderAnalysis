@@ -3,7 +3,7 @@
 #
 # Date Created: Oct 28,2019
 #
-# Last Modified: Mon Oct 28 15:23:00 2019
+# Last Modified: Tue Oct 29 08:24:55 2019
 #
 # Author: samolof
 #
@@ -30,6 +30,10 @@ def flatten_recursive(root, row=[]):
             yield row + [root]
 
 
+def sorter(row):
+    """sorts by Date, Value, Measure,Border"""
+    date = row[1].split('/')
+    return (date[2],date[0],row[3],row[2],row[1])
 
 parser = argparse.ArgumentParser(description="Border crossing analytics")
 parser.add_argument('infile', type=str, help="input file")
@@ -67,7 +71,7 @@ if __name__ == "__main__":
 
         #get summed results and sort by outputSortOrder (Date,Value,Measure, Border)
         resultData = list(flatten_recursive(searchTree))
-        resultData.sort(key=operator.itemgetter(*outputSortOrder), reverse=True)
+        resultData.sort(key=sorter, reverse=True)
 
 
         #write output while also calculating running monthly average over Measure and Border
