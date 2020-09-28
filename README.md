@@ -1,11 +1,13 @@
 # Border Crossing Analysis
+
 (Insight Data Challenge)
+
 The Bureau of Transportation Statistics regularly makes available data on the number of vehicles, equipment, passengers and pedestrians crossing into the United States by land.
 
 We want to calculate the total number of times vehicles, equipment, passengers and pedestrians cross the U.S.-Canadian and U.S.-Mexican borders each month. We also want to know the running monthly average of total number of crossings for that type of crossing and border.
 
 ## Input Dataset
-Found in input/Border_Crossing_Entry_Data.csv
+(input/Border_Crossing_Entry_Data.csv)
 
 The file contains data of the form:
 
@@ -21,18 +23,18 @@ Eagle Pass,Texas,2303,US-Mexico Border,01/01/2019 12:00:00 AM,Pedestrians,56810,
 ```
 See the [notes from the Bureau of Transportation Statistics](https://data.transportation.gov/Research-and-Statistics/Border-Crossing-Entry-Data/keg4-3bc2) for more information on each field.
 
-Here's a brief description of the important fields:
+The important fields:
 * `Border`: Designates what border was crossed
 * `Date`: Timestamp indicating month and year of crossing
 * `Measure`: Indicates means, or type, of crossing being measured (e.g., vehicle, equipment, passenger or pedestrian)
 * `Value`: Number of crossings
 
 ## Expected Output
-* Sum the total number of crossings (`Value`) of each type of vehicle or equipment, or passengers or pedestrians, that crossed the border that month, regardless of what port was used. 
-* Calculate the running monthly average of total crossings, rounded to the nearest whole number, for that combination of `Border` and `Measure`, or means of crossing.
+* The sum the total number of crossings (`Value`) of each type of vehicle or equipment, or passengers or pedestrians, that crossed the border that month, regardless of what port was used. 
+* Running Monthly averages of total crossings, rounded to the nearest whole number, for that combination of `Border` and `Measure`, or means of crossing.
 
 
-For example, given the sample input file above, the correct output file would be:
+For example, given the sample input above, the correct output would be:
 
 ```
 Border,Date,Measure,Value,Average
@@ -45,7 +47,7 @@ US-Mexico Border,01/01/2019 12:00:00 AM,Pedestrians,56810,0
 
 ```
 
-The lines should be sorted in descending order by 
+Lines should be sorted in descending order by 
 * `Date`
 * `Value` (or number of crossings)
 * `Measure`
@@ -67,23 +69,23 @@ def Tree():
 	return defaultdict(tree)
 
 ```	 
-This allowed categorization of the data points as the were being read line by line like so:
+This allows categorization of the data points as they are being read line by line like so:
 
 ```python
 tree = Tree()
 tree[border][date][measure] = value
 ```
 
-With the data grouped by Border,Date and Measure (in that order ) it is straightforward to sum for each group 
+With the data grouped by Border,Date and Measure (in that order) it is straightforward to sum for each group 
 as required for the first part of this challenge (actually this was done on the fly as the input data was being parsed
 line by line).
 To calculate running Monthly averages for each border and means of crossing the result obtained from the
-first step is sorted in descending order (as required). It is then straightforward to calculate a running monthly
-average using the following procedure:
+first step is sorted in descending order. It is then straightforward to calculate a running monthly
+average as follows:
 - Read each row of results
 - for each row, find all the other rows in the result set with the same border and measure and same Year by searching forward
-  in the result set, since the result set is already sorted in descending order ( and using Python's nice
+  in the result set, since the result set is already sorted in descending order ( and using Python's handy
   filter() function)
 - Sum up the rows obtained from step 2 and take the average
 
-See src/border_analytics.py for working code
+See src/border_analytics.py for details.
