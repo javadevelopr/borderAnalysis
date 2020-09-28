@@ -1,11 +1,11 @@
-# Insight Data Challenge: Border Crossing Analysis
+# Border Crossing Analysis
+(Insight Data Challenge)
 The Bureau of Transportation Statistics regularly makes available data on the number of vehicles, equipment, passengers and pedestrians crossing into the United States by land.
 
-**For this challenge, we want to calculate the total number of times vehicles, equipment, passengers and pedestrians cross the U.S.-Canadian and U.S.-Mexican borders each month. We also want to know the running monthly average of total number of crossings for that type of crossing and border.**
+We want to calculate the total number of times vehicles, equipment, passengers and pedestrians cross the U.S.-Canadian and U.S.-Mexican borders each month. We also want to know the running monthly average of total number of crossings for that type of crossing and border.
 
 ## Input Dataset
-
-For this challenge, you will be given an input file, `Border_Crossing_Entry_Data.csv`, that will reside in the top-most `input` directory of your repository.
+Found in input/Border_Crossing_Entry_Data.csv
 
 The file contains data of the form:
 
@@ -21,20 +21,18 @@ Eagle Pass,Texas,2303,US-Mexico Border,01/01/2019 12:00:00 AM,Pedestrians,56810,
 ```
 See the [notes from the Bureau of Transportation Statistics](https://data.transportation.gov/Research-and-Statistics/Border-Crossing-Entry-Data/keg4-3bc2) for more information on each field.
 
-For the purposes of this challenge, you'll want to pay attention to the following fields:
+Here's a brief description of the important fields:
 * `Border`: Designates what border was crossed
 * `Date`: Timestamp indicating month and year of crossing
 * `Measure`: Indicates means, or type, of crossing being measured (e.g., vehicle, equipment, passenger or pedestrian)
 * `Value`: Number of crossings
 
 ## Expected Output
-Using the input file, you must write a program to 
 * Sum the total number of crossings (`Value`) of each type of vehicle or equipment, or passengers or pedestrians, that crossed the border that month, regardless of what port was used. 
 * Calculate the running monthly average of total crossings, rounded to the nearest whole number, for that combination of `Border` and `Measure`, or means of crossing.
 
-Your program must write the requested output data to a file named `report.csv` in the top-most `output` directory of your repository.
 
-For example, given the above input file, the correct output file, `report.csv` would be:
+For example, given the sample input file above, the correct output file would be:
 
 ```
 Border,Date,Measure,Value,Average
@@ -60,7 +58,7 @@ The column, `Average`, is for the running monthly average of total crossings for
 Thanks to Python's "all batteries-included" standard library, this was a fairly straightforward challenge and my 
 approach should be fairly readable from the code.
 
-My core data structure iss a search Tree. Since Python does not come with a Tree structure out of the box (except 
+My core data structure is a search Tree. Since Python does not come with a Tree structure out of the box (except 
 dict objects which are basically trees of depth 2) I simulate one using nested dicts (defaultdict to be exact). 
 Python does not allow you to nest dicts to an arbitrary depth so I created one using a known python hack:
 
@@ -76,14 +74,16 @@ tree = Tree()
 tree[border][date][measure] = value
 ```
 
-With the data grouped by Border,Date and Measure (in that order ) it was then straightforward to sum for each group 
+With the data grouped by Border,Date and Measure (in that order ) it is straightforward to sum for each group 
 as required for the first part of this challenge (actually this was done on the fly as the input data was being parsed
 line by line).
-To calculate running Monthly averages for each border and means of crossing the results obtained from the
-first step were sorted in descending order (as required). It was then straightforward to calculate a running monthly
-average using the ff procedure:
+To calculate running Monthly averages for each border and means of crossing the result obtained from the
+first step is sorted in descending order (as required). It is then straightforward to calculate a running monthly
+average using the following procedure:
 - Read each row of results
 - for each row, find all the other rows in the result set with the same border and measure and same Year by searching forward
   in the result set, since the result set is already sorted in descending order ( and using Python's nice
   filter() function)
 - Sum up the rows obtained from step 2 and take the average
+
+See src/border_analytics.py for working code
